@@ -1,0 +1,1319 @@
+openapi: 3.0.1
+info:
+  description: >-
+    Eksternt API til at intgrere med [E-Komplet](https://e-komplet.dk/). For at
+    kommunikere med API'et skal man have modtaget en API-key af
+    [E-Komplet](support@e-komplet.dk). API'et returnerer altid `200: Success`,
+    hvori man kan finde et objekt med relateret data, eller fejl-besked.
+  version: 1.0.0
+  title: Ekstern API E-Komplet
+  contact:
+    name: E-Komplet
+    email: support@e-komplet.dk
+servers:
+  - url: externalaccessapi.e-komplet.dk/
+  - url: externalaccessapitest.e-komplet.dk/
+paths:
+  /Debtor/create:
+    post:
+      tags:
+        - Debtor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/DebtorDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Hour/Registration:
+    post:
+      tags:
+        - Hour
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/HourRegistrationDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/HourRegistrationDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/HourRegistrationDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/HourRegistrationDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Offers/GetOffersWithCommentsById:
+    post:
+      tags:
+        - Offers
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          text/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/*+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Offers/GetPDFFromGuid:
+    get:
+      tags:
+        - Offers
+      parameters:
+        - name: guid
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /Offers/UpdateState:
+    post:
+      tags:
+        - Offers
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferStateDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferStateDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferStateDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferStateDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Offers/PostComments:
+    post:
+      tags:
+        - Offers
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Offers/UpdateComments:
+    post:
+      tags:
+        - Offers
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/OfferCommentDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Offers/DeleteCommentsById:
+    post:
+      tags:
+        - Offers
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+          text/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+          application/*+json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Planning/Create:
+    post:
+      tags:
+        - Planning
+      summary: Creates a CalendarEvent for /Planning/CalendarEvents.
+      description: "Sample request:\r\n            \r\n    POST:       https://externalaccessapi.e-komplet.dk/Planning/create\r\n    Apikey:     \"APIKEY\"\r\n    SiteName:   \"SITENAME\"\r\n    \r\n    [{\r\n        \"ID\": 1,\r\n        \"Description\": \"string\",\r\n        \"End\": \"2020-10-22\",\r\n        \"IsAllDay\": true,\r\n        \"Start\": \"2019-10-22\",\r\n        \"Title\": \"string\",\r\n        \"Timezone\": \"string\",\r\n        \"EndTimezone\": \"string\",\r\n        \"CategoryID\": 0,\r\n        \"IsLocked\": true,\r\n        \"WorkSheetIDS\": [\r\n           1\r\n        ],\r\n        \"FitterIDS\": [\r\n           1\r\n        ]\r\n     }]"
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CalendarEventsDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CalendarEventsDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CalendarEventsDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CalendarEventsDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Project/Create:
+    post:
+      tags:
+        - Project
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectAddRequestDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectAddRequestDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectAddRequestDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectAddRequestDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  '/Project/{GetDetailsFromReference}':
+    post:
+      tags:
+        - Project
+      parameters:
+        - name: GetDetailsFromReference
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectRequest'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectRequest'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectRequest'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProjectRequest'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /Request/Get:
+    post:
+      tags:
+        - Request
+      summary: Requests data from specified E-Komplet page.
+      deprecated: true
+      description: |-
+        Request Types:
+
+        | Endpoint Types | Enumeration Value |   Site on E-Komplet |
+        |-----|-----|-------|
+        |  invoices                    | 1  | /Invoice/AllInvoices 
+         purchaseinvoices              | 2  | /PurchaseInvoice/All 
+         projects                      | 3  | /Management/WorkInProgress 
+         financialpost                 | 4  | /Accountancy/AllFinancialPosts 
+         worksheets                    | 5  | /WorkSheet/WorkSheets 
+         calendarevents                | 6  | /Planning/CalendarEvents 
+         financialaccount              | 7  | /Accountancy/FinancialAccounts 
+         debitors                      | 8  | /Accountancy/Debtors 
+         creditors                     | 9  | /Accountancy/Creditors 
+         fitterhours                   | 10 | /Accountancy/FitterHours 
+         fittercategories              | 11 | /Salary/FitterCategories 
+         projectgroups                 | 12 | /Projects/ProjectGroups 
+         closedprojectgroups           | 13 | /Projects/AllClosed 
+         invoicelines                  | 14 | /Accountancy/InvoiceLines 
+         purchaseinvoicelines          | 15 | /Accountancy/PurchaseInvoiceLines 
+         fittersoverviews              | 16 | /Fitters/FittersOverview 
+         salaryperiods                 | 17 | /Salary/SalaryPeriods 
+         budget                        | 18 | /Accountancy/Budget 
+         financialpost_parentaccount   | 19 | /Accountancy/FinancialAccounts 
+         offers                        | 20 | /Projects/Offers 
+         dimension_departments         | 21 | /Admin/Dimension 
+         dimension_carriers            | 22 | /Admin/Dimension 
+         dimension_purposes            | 23 | /Admin/Dimension
+      requestBody:
+        description: herh
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RequestDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RequestDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RequestDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RequestDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+  /WorkSheet/Create:
+    post:
+      tags:
+        - WorkSheet
+      summary: Creates a Worksheet for /WorkSheet/WorkSheets.
+      description: "Sample request:\r\n            \r\n    POST:       https://externalaccessapi.e-komplet.dk/WorkSheet/Create\r\n    Apikey:     \"APIKEY\"\r\n    SiteName:   \"SITENAME\"\r\n    \r\n    [{\r\n      \"AddressDescription\":\"AddressDescription\",\r\n      \"AssociatedAddressID\":\"1\",\r\n      \"AssociatedPersonID\":\"1\",\r\n      \"Description\":\"Description\",\r\n      \"FitterID\":\"1\",\r\n      \"FitterNote\":\"FitterNote\",\r\n      \"PersonDescription\":\"PersonDescription\",\r\n      \"ProjectID\":\"2\",\r\n      \"StartDate\":\"01-09-2020\",\r\n      \"StarTime\":\"12:00\",\r\n      \"StatusEnum\":\"NotStarted\",\r\n      \"SecondaryStatusValueAddRequestDTOs\":[\r\n           {\"TemplateID\":\"1\", \r\n            \"Value\":\"true\"}\r\n      ]\r\n    }]\r\n    \r\nStatusEnum = { InProgress, NotStarted, PartiallyCompleted, Completed, Closed, Exported }"
+      requestBody:
+        description: ''
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkSheetDTO'
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkSheetDTO'
+          text/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkSheetDTO'
+          application/*+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WorkSheetDTO'
+      responses:
+        '200':
+          description: EKResponseDTO.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EKResponseDTO'
+components:
+  schemas:
+    EKResponseDTO:
+      type: object
+      properties:
+        Data:
+          type: object
+        ErrorMessage:
+          type: string
+          default: ''
+        ValidationErrors:
+          type: object
+        HasErrors:
+          type: boolean
+          default: false
+    FinancialAccountDTO:
+      type: object
+      properties:
+        ID:
+          type: integer
+          format: int32
+          default: null
+        VatTypeId:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        DimensionId:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        Number:
+          type: integer
+          format: int64
+          default: null
+        Name:
+          type: string
+          nullable: true
+          default: null
+        Postable:
+          type: boolean
+          default: true
+        DimensionNullable:
+          type: boolean
+          default: true
+        Hidden:
+          type: boolean
+          default: false
+        DepartmentId:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        IsCredit:
+          type: boolean
+          nullable: true
+          default: false
+        IsArchived:
+          type: boolean
+          default: false
+        DimensionCarrierEnabled:
+          type: boolean
+          default: false
+        DimensionCarrierRequired:
+          type: boolean
+          default: false
+        DimensionPurposeEnabled:
+          type: boolean
+          default: false
+        DimensionPurposeRequired:
+          type: boolean
+          default: false
+        DimensionDepartmentEnabled:
+          type: boolean
+          default: false
+        DimensionDepartmentRequired:
+          type: boolean
+          default: false
+        IsCollection:
+          type: boolean
+          default: true
+        ParentAccountId:
+          type: integer
+          format: int32
+          nullable: false
+          default: 2
+      additionalProperties: false
+    AssociationAddressDTO:
+      type: object
+      properties:
+        Address:
+          type: string
+          nullable: false
+          default: Karlskogavej
+        Address2:
+          type: string
+          nullable: true
+          default: null
+        ZipCode:
+          type: string
+          nullable: false
+          default: 9000
+        City:
+          type: string
+          nullable: false
+          default: Aalborg
+      additionalProperties: false
+    DebtorDTO:
+      type: object
+      properties:
+        ID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        Name:
+          type: string
+          nullable: false
+          default: TestNavn
+        Email:
+          type: string
+          nullable: false
+          default: test@test.dk
+        PaymentTermID:
+          nullable: false
+          type: integer
+          format: int32
+          default: 3
+        Reference:
+          nullable: false
+          type: integer
+          format: int64
+          default: 123456789
+        Description:
+          type: string
+          nullable: true
+          default: TestDescription
+        CVR:
+          type: string
+          nullable: true
+          default: null
+        Phone:
+          type: string
+          nullable: true
+          default: null
+        Fax:
+          type: string
+          nullable: true
+          default: null
+        AccountMax:
+          type: number
+          format: double
+          nullable: false
+          default: 0
+        IsArchived:
+          type: boolean
+          nullable: false
+          default: false
+        PriceGroupID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        PaymentMethod:
+          type: string
+          nullable: false
+          default: Email
+        CurrencyID:
+          type: string
+          nullable: false
+          default: DKK
+        DimensionCarrierID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        DimensionDepartmentID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        DimensionPurposeID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        SearchName:
+          type: string
+          nullable: true
+          default: null
+        CustomerVatZoneID:
+          type: integer
+          format: int32
+          default: 1
+        UsesHourSpecification:
+          type: boolean
+          default: true
+        ProfitGroupID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        FitterHourDiscountPercent:
+          type: number
+          format: double
+          default: 0
+        ItemDiscountPercent:
+          type: number
+          format: double
+          default: null
+        IsLocked:
+          type: boolean
+          default: false
+        InvoiceReportDocumentConfigurationID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        OnAccountReportDocumentConfigurationID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        OverrideReportCountryID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        DeliveryMethod_Reminder:
+          type: string
+          nullable: true
+          default: Email
+        DeliveryMethod_FinancialPost:
+          type: string
+          nullable: true
+          default: Email
+        AssociationBillingAddressID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        AssociationWorkAddressID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        EmailForInvoice:
+          type: string
+          nullable: true
+          default: null
+        EmailForReminder:
+          type: string
+          nullable: true
+          default: null
+        EmailForFinancialPost:
+          type: string
+          nullable: true
+          default: null
+        EniigGasIdentification:
+          type: string
+          nullable: true
+          default: null
+        AttachOIOUBL:
+          type: boolean
+          default: null
+        GroupByDate:
+          type: boolean
+          nullable: true
+          default: true
+        UseHeader:
+          type: boolean
+          nullable: true
+          default: false
+        ProjectType:
+          type: string
+          nullable: true
+          default: null
+        ProjectManagerId:
+          type: string
+          format: uuid
+          nullable: true
+          default: null
+        ProjectGroupId:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        SubscriptionInvoiceReportDocumentConfigurationID:
+          type: integer
+          format: int32
+          nullable: true
+          default: null
+        EAN:
+          type: string
+          nullable: true
+          default: null
+        FinancialAccount:
+          $ref: '#/components/schemas/FinancialAccountDTO'
+        AssociationAddress:
+          $ref: '#/components/schemas/AssociationAddressDTO'
+      additionalProperties: false
+    HourRegistrationDTO:
+      type: object
+      properties:
+        FitterHourID:
+          type: integer
+          format: int32
+          nullable: true
+        Date:
+          type: string
+          format: date-time
+          nullable: true
+        FitterID:
+          type: integer
+          format: int32
+          nullable: true
+        ProjectID:
+          type: integer
+          format: int32
+          nullable: true
+        FitterCategoryID:
+          type: integer
+          format: int32
+          nullable: true
+        Count:
+          type: number
+          format: double
+          nullable: true
+        HourRate:
+          type: number
+          format: double
+          nullable: true
+        Note:
+          type: string
+          nullable: true
+      additionalProperties: false
+    StateTypeEnumDTO:
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      type: integer
+      format: int32
+    OfferStateDTO:
+      type: object
+      properties:
+        OfferId:
+          type: integer
+          format: int32
+          nullable: true
+        State:
+          $ref: '#/components/schemas/StateTypeEnumDTO'
+        CreatedDate:
+          type: string
+          format: date-time
+          nullable: true
+        CreatedBy:
+          type: string
+          format: uuid
+          nullable: true
+      additionalProperties: false
+    OfferCommentDTO:
+      type: object
+      properties:
+        ID:
+          type: string
+          format: uuid
+        Text:
+          type: string
+          nullable: true
+        OfferId:
+          type: integer
+          format: int32
+          nullable: true
+        HandleBy:
+          type: string
+          format: uuid
+          nullable: true
+        DateCreated:
+          type: string
+          format: date-time
+          nullable: true
+        DateUpdated:
+          type: string
+          format: date-time
+          nullable: true
+        CreatedBy:
+          type: string
+          format: uuid
+          nullable: true
+        UpdatedBy:
+          type: string
+          format: uuid
+          nullable: true
+      additionalProperties: false
+    CalendarEventsDTO:
+      type: object
+      properties:
+        ID:
+          type: integer
+          format: int32
+        Description:
+          type: string
+          nullable: true
+        End:
+          type: string
+          format: date-time
+        IsAllDay:
+          type: boolean
+        Start:
+          type: string
+          format: date-time
+        Title:
+          type: string
+          nullable: true
+        Timezone:
+          type: string
+          nullable: true
+        EndTimezone:
+          type: string
+          nullable: true
+        CategoryID:
+          type: integer
+          format: int32
+        IsLocked:
+          type: boolean
+        CreatedByUserID:
+          type: string
+          format: uuid
+        WorkSheetIDS:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+        FitterIDS:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+      additionalProperties: false
+    ProjectCalenderEventAddRequestDTO:
+      type: object
+      properties:
+        Plan:
+          type: boolean
+        Start:
+          type: string
+          format: date-time
+        End:
+          type: string
+          format: date-time
+        IsLocked:
+          type: boolean
+        CategoryID:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ProjectWorksheetSecondaryStatusValueAddRequestDTO:
+      type: object
+      properties:
+        TemplateID:
+          type: integer
+          format: int32
+        Value:
+          type: boolean
+      additionalProperties: false
+    ProjectWorksheetAddRequestDTO:
+      type: object
+      properties:
+        ProjectCalenderEventAddRequestDTO:
+          $ref: '#/components/schemas/ProjectCalenderEventAddRequestDTO'
+        ProjectWorksheetSecondaryStatusValueAddRequestDTOs:
+          type: array
+          items:
+            $ref: >-
+              #/components/schemas/ProjectWorksheetSecondaryStatusValueAddRequestDTO
+          nullable: true
+        FitterID:
+          type: integer
+          format: int32
+          nullable: true
+        StartDate:
+          type: string
+          format: date-time
+        StartTime:
+          type: string
+          nullable: true
+        Description:
+          type: string
+          nullable: true
+        AssociatedPersonID:
+          type: integer
+          format: int32
+          nullable: true
+        AssociatedAddressID:
+          type: integer
+          format: int32
+          nullable: true
+        AddressDescription:
+          type: string
+          nullable: true
+        PersonDescription:
+          type: string
+          nullable: true
+        Status:
+          type: string
+          nullable: true
+        IsCompleted:
+          type: string
+          format: date-time
+          nullable: true
+        IsClosed:
+          type: string
+          format: date-time
+          nullable: true
+        FitterNote:
+          type: string
+          nullable: true
+      additionalProperties: false
+    ProjectBudgetMiscellaneousAddRequestDTO:
+      type: object
+      properties:
+        Note:
+          type: string
+          nullable: true
+        Description:
+          type: string
+          nullable: true
+        Budget:
+          type: number
+          format: double
+        CreditorID:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    ProjectBudgetCreditorAddRequestDTO:
+      type: object
+      properties:
+        Note:
+          type: string
+          nullable: true
+        Description:
+          type: string
+          nullable: true
+        Budget:
+          type: number
+          format: double
+        CreditorID:
+          type: integer
+          format: int32
+      additionalProperties: false
+    ProjectBudgetCostRequestDTO:
+      type: object
+      properties:
+        Materials:
+          type: number
+          format: double
+        HourlyRate:
+          type: number
+          format: double
+        FitterHoursTotal:
+          type: number
+          format: double
+        AdditionalZones:
+          type: number
+          format: double
+        SocialFeesPercent:
+          type: number
+          format: double
+        ExpectedTotalCosts:
+          type: number
+          format: double
+        PieceWork:
+          type: number
+          format: double
+      additionalProperties: false
+    ProjectBudgetSalesRequestDTO:
+      type: object
+      properties:
+        Materials:
+          type: number
+          format: double
+        Miscellaneous:
+          type: number
+          format: double
+        SalaryTotal:
+          type: number
+          format: double
+      additionalProperties: false
+    ProjectBudgetAddRequestDTO:
+      type: object
+      properties:
+        ProjectBudgetMiscellaneousAddRequestDTOs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectBudgetMiscellaneousAddRequestDTO'
+          nullable: true
+        ProjectBudgetCreditorAddRequestDTOs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectBudgetCreditorAddRequestDTO'
+          nullable: true
+        ProjectBudgetCostRequestDTO:
+          $ref: '#/components/schemas/ProjectBudgetCostRequestDTO'
+        ProjectBudgetSalesRequestDTO:
+          $ref: '#/components/schemas/ProjectBudgetSalesRequestDTO'
+      additionalProperties: false
+    ProjectAddRequestDTO:
+      type: object
+      properties:
+        ProjectWorksheetAddRequestDTOs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectWorksheetAddRequestDTO'
+          nullable: true
+        ProjectBudgetAddRequestDTO:
+          $ref: '#/components/schemas/ProjectBudgetAddRequestDTO'
+        UseInventory:
+          type: boolean
+        ProjectType:
+          type: string
+          nullable: true
+        ManagerID:
+          type: string
+          nullable: true
+        SellerID:
+          type: integer
+          format: int32
+          nullable: true
+        CustomerID:
+          type: integer
+          format: int32
+        OfferID:
+          type: integer
+          format: int32
+          nullable: true
+        InvoiceTypeID:
+          type: integer
+          format: int32
+        Reference:
+          type: string
+          nullable: true
+        StartDate:
+          type: string
+          format: date-time
+        ProjectDescription:
+          type: string
+          nullable: true
+        SocialFees:
+          type: number
+          format: double
+          nullable: true
+        EndDate:
+          type: string
+          format: date-time
+        PaymentTermID:
+          type: integer
+          format: int32
+        FinancialAccountID:
+          type: integer
+          format: int32
+          nullable: true
+        Name:
+          type: string
+          nullable: true
+        Note:
+          type: string
+          nullable: true
+        AutoPostPurchaseInvoices:
+          type: boolean
+        RequisitionNumber:
+          type: string
+          nullable: true
+        ProjectGroupID:
+          type: integer
+          format: int32
+        IsIntern:
+          type: boolean
+        IsWorkInProgress:
+          type: boolean
+        CoverageInPercent:
+          type: number
+          format: double
+        PriceGroupID:
+          type: integer
+          format: int32
+          nullable: true
+        CurrencyCode:
+          type: string
+          nullable: true
+        DimensionCarrierID:
+          type: integer
+          format: int32
+          nullable: true
+        DimensionDepartmentID:
+          type: integer
+          format: int32
+          nullable: true
+        DimensionPurposeID:
+          type: integer
+          format: int32
+          nullable: true
+        TeamLeaderID:
+          type: string
+          nullable: true
+        AssociatedPersonID:
+          type: integer
+          format: int32
+          nullable: true
+        AssociatedAddressID:
+          type: integer
+          format: int32
+          nullable: true
+        ServiceAgreementID:
+          type: integer
+          format: int32
+          nullable: true
+        NextServiceDate:
+          type: string
+          format: date-time
+          nullable: true
+        PriceListID:
+          type: integer
+          format: int32
+          nullable: true
+        OfferNumber:
+          type: string
+          nullable: true
+        IsClosed:
+          type: boolean
+        ProfitGroupID:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    ProjectRequest:
+      type: object
+      properties:
+        Reference:
+          type: string
+          nullable: true
+      additionalProperties: false
+    RequestTypeEnumDTO:
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 16
+        - 17
+        - 18
+        - 19
+        - 20
+        - 21
+        - 22
+        - 23
+      type: integer
+      format: int32
+    RequestDTO:
+      type: object
+      properties:
+        FromDateLocal:
+          type: string
+          format: date-time
+        ToDateLocal:
+          type: string
+          format: date-time
+        Type:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestTypeEnumDTO'
+          nullable: true
+        Page:
+          type: integer
+          format: int32
+        PageSize:
+          type: integer
+          format: int32
+      additionalProperties: false
+    SecondaryStatusDTO:
+      type: object
+      properties:
+        TemplateID:
+          type: integer
+          format: int32
+        Value:
+          type: boolean
+      additionalProperties: false
+    WorkSheetDTO:
+      type: object
+      properties:
+        SecondaryStatusValueAddRequestDTOs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecondaryStatusDTO'
+          nullable: true
+        Plan:
+          type: boolean
+        ProjectID:
+          type: integer
+          format: int32
+        StartDate:
+          type: string
+          format: date-time
+        Description:
+          type: string
+          nullable: true
+        FitterID:
+          type: integer
+          format: int32
+        StartTime:
+          type: string
+          nullable: true
+        StatusEnum:
+          type: string
+          nullable: true
+        FitterNote:
+          type: string
+          nullable: true
+        AssociatedAddressID:
+          type: integer
+          format: int32
+          nullable: true
+        AssociatedPersonID:
+          type: integer
+          format: int32
+          nullable: true
+        AddressDescription:
+          type: string
+          nullable: true
+        PersonDescription:
+          type: string
+          nullable: true
+        IsCompleted:
+          type: string
+          format: date-time
+          nullable: true
+        IsClosed:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false

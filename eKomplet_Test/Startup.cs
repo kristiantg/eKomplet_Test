@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +40,10 @@ namespace eKomplet_Test
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ServeUnknownFileTypes = true,
+            });
 
             app.ConfigureExceptionMiddleware();
 
@@ -47,14 +52,6 @@ namespace eKomplet_Test
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -62,6 +59,12 @@ namespace eKomplet_Test
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwaggerUI(c =>
+            {
+                c.InjectStylesheet("/swagger-ui/custom.css");
+                c.SwaggerEndpoint("v1/swagger.yaml", "Ekstern API");
             });
         }
     }
